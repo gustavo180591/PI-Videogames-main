@@ -1,44 +1,20 @@
-/* import './App.css';
+import "./App.css";
+import Landing from "../src/views/Landing/Landing";
+import Formulario from "../src/views/Form/Form";
+import Home from "../src/views/Home/Home";
+import Detail from "../src/views/Detail/Detail";
+import { BrowserRouter, Route } from "react-router-dom";
+//import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <h1>Henry Videogames</h1>
-    </div>
-  );
-}
-
-export default App;
- */
-
-/* import Home from "./views/Home/Home";
-import Landing from "./views/Landing/Landing";
-import Form from "./views/Form/Form";
-import Detail from "./views/Detail/Detail"; */
-
-import { Home, Landing, Form, Detail } from "./views";
-import { Route, useLocation } from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar";
-
-function App() {
-  const location = useLocation();
-  return (
-    <div className="App">
-      {/* una manera de definir rutas, el problema con esta manera es que no se pueden pasar props */}
-      {location.pathname !== "/" && <NavBar />}
-      <Route exact path="/" component={Landing} />
-      <Route path="/home" render={() => <Home />} />
-      <Route exact path="/detail" component={Detail} />
-      <Route exact path="/create" component={Form} />
-      {/* otra manera de definir rutas */}
-      {/*  <Route exact path="/">
-        <Landing />
-      </Route> */}
-      {/* otra manera de definir rutas */}
-
-      {/* <Route path="/home">
-        <Home />
-      </Route> */}
+      <BrowserRouter>
+        <Route path="/" element={<Landing />} />
+        <Route path="Home" element={<Home />} />
+        <Route path="Detail/:id" element={<Detail />} />
+        <Route path="Formulario" element={<Formulario />} />
+      </BrowserRouter>
     </div>
   );
 }

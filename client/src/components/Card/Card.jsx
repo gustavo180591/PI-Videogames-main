@@ -1,12 +1,42 @@
-import style from "./Card.module.css"
-const Card= (props)=>{
-    return(
-        <div className={style.card }>
-             <p>Name:{props.name}</p>
-             <p>Email:{props.email}</p>
-             <p>Phone:{props.phone}</p>
-        </div>
-    )
-}
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
-export default Card
+const Container = styled.div`
+  color: white;
+  height: 135px;
+  display: flex;
+`;
+
+const Image = styled.img``;
+
+const Datos = styled.div`
+  color: white;
+  justify-content: center;
+`;
+
+const Genres = styled.div`
+  color: yellow;
+`;
+
+export default function Card(props) {
+  let generos = props.videogame.genres;
+  return (
+    <Container>
+      <Image src={props.videogame.img} />
+      <Datos>
+        <div>
+          <NavLink to={`/Detail/${props.videogame.id}`}>
+            {props.videogame.name}
+          </NavLink>
+        </div>
+        {generos ? (
+          <Genres>
+            {generos.map((genre) => (
+              <div>{genre}</div>
+            ))}
+          </Genres>
+        ) : null}
+      </Datos>
+    </Container>
+  );
+}

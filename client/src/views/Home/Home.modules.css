@@ -1,0 +1,59 @@
+.bkg{
+   background-image: url('../../img/fondoHome.jpg');
+   background-repeat: repeat;
+   background-size: absolute;    
+   top: 0;
+   bottom: 0;
+   right: 0;
+   left: 0;
+}
+.panel {
+    display: flex;
+    justify-content: center;
+}
+
+.reset {
+   background-color: darkgrey;
+   color:rgb(39, 38, 38);
+}
+
+.reset:hover {
+   cursor: pointer;
+   background-color: lightblue;
+   color: black;
+}
+
+.paginado {
+    display: flex;
+    justify-content: center;
+}
+.gridContainer{
+   display: grid;
+   margin-top: 10px;
+   grid-template-rows: 20px 20px;
+   grid-template-columns: 120px 120px 120px 130px;
+   grid-row-gap: 0px;
+   border: 2px solid rgb(39, 38, 38);
+   box-shadow: 4px 3px 15px 4px  rgb(55, 55, 56);
+}
+
+.tituloSelector {
+   background-color: rgb(2, 2, 77);
+   color: white;
+   font-size: 12px;
+   border: 1px solid white;
+   margin: 0px;
+   padding: 0px;
+
+}
+
+.selector {
+   font-size: 12px;
+
+}
+
+@media (max-width: 640px) {
+   .gridContainer {
+      grid-template-columns: 100px 100px 100px 110px;
+   }
+}
