@@ -1,0 +1,13 @@
+    .backgro {
+      /* background: url("./Background.jpg"); */
+      width: 100%; /* Ancho deseado */
+      height: 100%; /* Altura ajustada automáticamente */
+      
+
+    }
+    .img {
+      width: 200px; /* Ancho deseado */
+      height: auto; /* Altura ajustada automáticamente */
+    }
+
+    

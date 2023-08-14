@@ -1,0 +1,98 @@
+.form {
+	width: 350px;
+	margin: 7% auto;
+	padding: 100px;
+	background-color: rgb(137, 143, 163);
+	border-radius: 5px;
+  }
+  
+  h1 {
+	text-align: center;
+	margin-bottom: 10px;
+  }
+  
+  div {
+	margin-bottom: 10px;
+	justify-content: center;
+  }
+  
+  label {
+	font-weight: 500;
+	
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  input[type="number"] {
+	width: 41%;
+	padding: 0px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	/* box-sizing: border-box; */
+  }
+  
+  input[type="checkbox"] {
+	margin-right: 5px;
+  }
+  
+  button[type="submit"] {
+	padding: 10px 20px;
+	background-color: #4caf50;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+	background-color: #45a049;
+  }
+  
+  /* Estilo para los elementos de género */
+  .genres {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+  }
+  
+  .genres > div {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+  }
+  
+  /* Estilo para los elementos de plataforma */
+  .platforms {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+  }
+  
+  .platforms > div {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+  }
+  
+  /* Estilo para el contenedor de las columnas */
+  .column {
+	display: flex;
+	gap: 0px;
+	text-align: left;
+  }
+  
+  /* Estilo para las columnas */
+  .column {
+	flex: 1;
+  }
+  .h4_options_title
+  {
+	margin-left: 25px;
+    font-size: 19px;
+  }
+  .opciones{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 0 auto;
+    margin-left: 20px;
+}

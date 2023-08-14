@@ -1,186 +1,210 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
-import { NavLink, useHistory } from "react-router-dom";
-import axios from "axios";
+import { postGame, getGenres} from "../../redux/actions";
+import style from "./Form.module.css"
+// import "./Create.css";
 
-const Marco = styled.div``;
+export default function Create() {
+    const dispatch = useDispatch();
+    const genres = useSelector((store) => store.genres);
+    const genres1 = Array.isArray(genres) ? genres.slice(0, 10) : [];
+    const genres2 = Array.isArray(genres) ? genres.slice(10, 20) : [];
+    
 
-const GenresDiv = styled.div`
-  height: 250px;
-  width: 450px;
-  border: 2px solid black;
-  display: flex;
-  flex-wrap: wrap;
-  margin: auto;
-  overflow-y: auto;
-`;
+    const [game, setGame] = useState({
+        name: "",
+        description: "",
+        image: "",
+        released: "",
+        rating: 0,
+        genres: [],
+        platforms: [],
+    });
 
-const GenresSelected = styled.div`
-  display: inline;
-  position: relative;
-  padding: 0px 10px 0px 10px;
-  height: 30px;
-  margin: 10px;
-  border: none;
-  border-radius: 20px;
-  background-color: #9dfef4;
-`;
+    useEffect(() => {
+        dispatch(getGenres());
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-const Err = styled.label`
-  color: red;
-  visibility: hidden;
-`;
+    const randomPlatforms = ["PC", "iOS", "Android", "macOS",  "PlayStation 4", "PlayStation 5", "Xbox", "PS Vita"]
 
-const Send = styled.button``;
-
-export default function Formulario() {
-  const data = useSelector((state) => state.data);
-  const genres = useSelector((state) => state.genres);
-  const [genresSelected, setGenresSelected] = useState([]);
-  const [verification, setVerification] = useState({
-    nombre: false,
-    descripcion: false,
-    plataforma: false,
-    img: false,
-    date: false,
-    clasificacion: false,
-    genres: false,
-  });
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const plataformas = [...new Set(data.flatMap((ele) => ele.plataforms))];
-
-  useEffect(() => {
-    console.log("cargando datos");
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/videogames/");
-        const data = response.data;
-        dispatch({ type: "login", payload: data });
-        alert("datos enviados");
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [dispatch]);
-
-  const envioDatos = async () => {
-    try {
-      const rpta = await axios.post("http://localhost:3001/videogames/", {
-        nombre: document.getElementById("nombre").value,
-        descripcion: document.getElementById("descripcion").value,
-        plataformas: document.getElementById("plataforma").value,
-        img: document.getElementById("img").value,
-        fecha: document.getElementById("date").value,
-        rating: document.getElementById("clasificacion").value,
-        generos: genresSelected,
-      });
-      console.log(rpta);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const visible = (nombre, valor) => {
-    document.getElementById(nombre + "Error").style.visibility = valor;
-  };
-
-  useEffect(() => {
-    if (genresSelected.length === 0) {
-      visible("genres", "visible");
-      setVerification({ ...verification, genres: false });
+    const ChangeInput = (e) => {
+        if (e.target.name === "genres" || e.target.name === "platforms") {
+        const arr = game[e.target.name];
+        setGame({
+            ...game,
+            [e.target.name]: arr.concat(e.target.value),
+        });
     } else {
-      visible("genres", "hidden");
-      setVerification({ ...verification, genres: true });
+        setGame({
+            ...game,
+            [e.target.name]: e.target.value,
+        });
     }
-  }, [genresSelected, verification]);
-
-  const addGenres = (e) => {
-    const valor = e.target.value;
-    if (!genresSelected.includes(valor)) {
-      setGenresSelected([...genresSelected, valor]);
-    }
-  };
-
-  const deleteGenre = (e) => {
-    const newGenres = genresSelected.filter((ele) => ele !== e.target.id);
-    setGenresSelected(newGenres);
-    if (newGenres.length === 0) {
-      setVerification({ ...verification, genres: false });
-    }
-  };
-
-  const validate = (e) => {
-    const elemento = e.target;
-    if (elemento.value === "") {
-      visible(elemento.id, "visible");
-      setVerification({ ...verification, [elemento.id]: false });
-    } else {
-      visible(elemento.id, "hidden");
-      setVerification({ ...verification, [elemento.id]: true });
-    }
-    switch (elemento.id) {
-      case "img":
-        const urlPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-        if (!urlPattern.test(elemento.value)) {
-          visible(elemento.id, "visible");
-          setVerification({ ...verification, [elemento.id]: false });
-        } else {
-          visible(elemento.id, "hidden");
-          setVerification({ ...verification, [elemento.id]: true });
-        }
-        break;
-      case "clasificacion":
-        if (elemento.value > 0 && elemento.value <= 5) {
-          visible(elemento.id, "hidden");
-          setVerification({ ...verification, [elemento.id]: true });
-        } else {
-          visible(elemento.id, "visible");
-          setVerification({ ...verification, [elemento.id]: false });
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
-  const submit = async (e) => {
-    e.preventDefault();
-    const ready = Object.keys(verification);
-
-    const readyForSend = () => {
-      let indicador = 0;
-      ready.forEach((value) => {
-        if (verification[value] === false) {
-          visible(value, "visible");
-          indicador++;
-        }
-      });
-      if (indicador > 0) {
-        alert(
-          `hay ${indicador} campos a revisar, verifique la información colocada`
-        );
-        return false;
-      } else {
-        return true;
-      }
     };
 
-    if (readyForSend()) {
-      await envioDatos();
-      history.push("/Home");
-    }
-  };
+    
 
-  return (
-    <Marco>
-      <NavLink to="/Home">BACK TO HOME</NavLink>
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-      <form onSubmit={submit}>
-        {/* Resto del formulario aquí */}
-      </form>
-    </Marco>
-  );
+        const obj = {
+        name: game.name,
+        description: game.description,
+        image: game.image,
+        released: game.released,
+        rating: game.rating,
+        genres: game.genres,
+        platforms: game.platforms,
+        };
+
+        // Validaciones
+        if (!obj.name) {
+            alert("El campo nombre no puede estar vacio")
+            return
+        }
+        if (!obj.description) {
+            alert("El campo descripción no puede estar vacio")
+            return
+        }if (!obj.released) {
+            alert("La fecha no puede estar vacio")
+            return
+        }if (obj.rating > 5 || obj.rating < 0) {
+            alert("El campo rating debe ser un numero entre 0 a 5")
+            return
+        }
+
+
+        dispatch(postGame(obj));
+        e.target.reset();
+        alert("Videogame created successfully!");
+        //  dispatch(getVideogames())
+
+        setGame({
+            name: "",
+            description: "",
+            image: "",
+            released: "",
+            rating: 0,
+            genres: [],
+            platforms: [],
+        });
+    };
+
+return (
+    
+    <div className={style.form}>
+        <h1>Crear un videoGame</h1>
+        <form
+            noValidate
+            onChange={(e) => ChangeInput(e)}
+            onSubmit={(e) => handleSubmit(e)}
+        >
+            <div>
+            <div>
+                <div >
+                    <div>
+                        <label>Nombre: </label>
+                        <input                      
+                        type="text"
+                        name="name"
+                        value={game.name}
+                        ></input>
+                    </div>
+                    <div>
+                        <label>Descripción: </label>
+                        <input
+                        
+                        type="text"
+                        name="description"
+                        value={game.description}
+                        ></input>
+                    </div>
+                    <div>
+                        <label>Fecha Lanzamiento: </label>
+                        <input
+                        
+                        type="date"
+                        name="released"
+                        value={game.released}
+                        ></input>
+                    </div>
+                    <div>
+                        <label>Rating: </label>
+                        <input                        
+                        type="number"
+                        name="rating"
+                        // step="0.1"
+                        // min="0" 
+                        // max="5"
+                        value={game.rating}
+                        ></input>
+                    </div>
+                </div>
+                <div >
+                    <label>Image URL: </label>
+                    <input
+                    
+                    type="text"
+                    name="image"
+                    value={game.image}
+                    ></input>
+                </div>
+            </div>
+            <br/>
+                <div className={style.column}>
+                    <div >
+                        <label>Generos:</label>
+                        <br/><br/>
+                        <div >
+                            <div>
+                                {genres1.map((gen) => (
+                                <div key={gen.name}>
+                                    <input
+                                    type="checkbox"
+                                    name="genres"
+                                    value={gen.name}
+                                    ></input>
+                                    <label name={gen}>{gen.name}</label>
+                                </div>
+                                ))}
+                            </div>
+                            <div>
+                                {genres2.map((gen) => (
+                                <div key={gen.name}>
+                                    <input
+                                    type="checkbox"
+                                    name="genres"
+                                    value={gen.name}
+                                    ></input>
+                                    <label name={gen}>{gen.name}</label>
+                                </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div >
+                        <label>Plataformas: </label>
+                        <br/><br/>
+                        <div >
+                            {randomPlatforms.map((P) => (
+                            <div key={P}>
+                                <input
+                                type="checkbox"
+                                name="platforms"
+                                value={P}
+                                ></input>
+                                <label name={P}>{P}</label>
+                            </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                </div>
+                <button  type="submit">
+                    Create!
+                </button>
+            </div>
+        </form>
+    </div>
+);
 }

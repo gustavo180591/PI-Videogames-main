@@ -1,26 +1,73 @@
-import styled from "styled-components";
-import fondoHome from "../../img/fondoHome.jpg";
-import NavBar from "../../components/NavBar/NavBar.jsx";
-import CardsContainer from "../../components/CardsContainer/CardsContainer";
-import { NavLink } from "react-router-dom";
-//import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import CardContainer from "../../components/CardsContainer/CardsContainer";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getVideogames, resetAll  } from "../../redux/actions";
+import NavBar from '../../components/NavBar/NavBar';
+import style from "./Home.module.css"
+import { Filter } from "../../components/Filtrer/Filtrer";
+import { Pagination } from "../../components/Pagination/Pagination";
+import {buscarGame} from "../../redux/actions";
 
-const Fondo = styled.div`
-  background-image: url(${fondoHome});
+export default function Home  () {
 
-  background-attachment: fixed;
-  background-size: cover;
-`;
+    const dispatch = useDispatch();
+    const videogames = useSelector((state) => state.videogames)
+    const filteredVideogames = useSelector((state) => state.filteredVideogames);
+    const filterBy = useSelector((state) => state.filterBy);
+    const orderBy = useSelector((state) => state.orderBy);
 
-export default function Home() {
-  let data = useSelector((state) => state.data);
+    const [Buscar, setBuscar] = useState("");
+    
+    function handleChange(e) {
+        e.preventDefault();
+        setBuscar(e.target.value);
+    }
 
-  return (
-    <Fondo style={{ height: data ? "100%" : "100vh" }}>
-      <NavBar />
-      <NavLink to="/Formulario">CREAR VIDEOJUEGO</NavLink>
-      {data.length > 1 ? <CardsContainer data={data} /> : <div>cargando</div>}
-    </Fondo>
-  );
+    function handleSubmit(e) {
+        e.preventDefault();
+        dispatch(buscarGame(Buscar))
+    }
+
+    
+
+
+    useEffect(() => {
+        dispatch(resetAll());
+        dispatch(getVideogames())
+    }, []);// eslint-disable-line react-hooks/exhaustive-deps
+
+      // Filtrado y Ordenado
+  let allVideogames;
+  filterBy === "All" && orderBy === "Select"
+    ? (allVideogames = videogames)
+    : (allVideogames = filteredVideogames);
+
+
+    // Paginacion
+    function paginate(e, num) {
+        e.preventDefault();
+        setPage(num);
+    }
+
+    const [page, setPage] = useState(1);
+    const [videogamesPerPage] = useState(15);
+
+    let lastCardPerPage = page * videogamesPerPage; //Se calcula el índice del último videojuego que se mostrará en la página actual multiplicando page por videogamesPerPage.
+    let firtsCardPerPage = lastCardPerPage - videogamesPerPage; //  Se calcula el índice del primer videojuego que se mostrará en la página actual restando 
+    let currentPageGames = allVideogames.slice(firtsCardPerPage, lastCardPerPage);
+
+    return (
+        <div class= {style.backgro} >
+            <NavBar  handleChange={handleChange} handleSubmit={handleSubmit} />
+              <Filter paginate={paginate} />
+            <CardContainer  videogames={currentPageGames} />
+            <Pagination
+                videogamesPerPage={videogamesPerPage}
+                totalVideogames={allVideogames.length}
+                paginate={paginate}
+            />
+        </div>
+    )
 }
+
+// export default Home;

@@ -1,12 +1,16 @@
-//import styled from "styled-components"
-import Card from"../Card/Card.jsx"
+import Card from "../Card/Card";
+import Loading from "../Loading/Loading";
+import style from "./CardsContainer.module.css"
 
-
-export default function CardsContainer(props){
-console.log(props);
-return(<div>
-	{props.data.map(videogame=><Card videogame={videogame}/>)}
-</div>
-
-
-	)}
+export default function CardContainer ({videogames}) {
+    return (
+      <div className= {style.container} >
+        { videogames.length > 0 ?
+        videogames.map((data) => (<Card data={data} />)) 
+        : <Loading/>
+        }
+      </div>
+    );
+  };
+  
+  

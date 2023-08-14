@@ -1,6 +1,24 @@
 .card {
-  border: 1px solid black;
-  width: fit-content;
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #319518;
   border-radius: 10px;
+  padding: 0px;
+  box-shadow: 0 2px 4px rgba(153, 12, 12, 0.1);
+  background-color: rgb(202, 206, 221);
+  font-size: 75%;
+  text-align: justify;
+  width: 195px; /* Ajusta el ancho del contenedor */
+  height: 210px; /* Ajusta la altura del contenedor */
+  transform: scale(1.03);
+}
+
+.img {
+  width: 80%;
+  /* margin-bottom: 10px; */
+  height: 80%;
+  transform: scale(1.03);
+  transition: 0.5s;
 }

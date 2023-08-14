@@ -1,45 +1,56 @@
-import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { NavLink } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
+import {  useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { idGame } from "../../redux/actions";
+// import NotFound from "../../components/notFound/notFound";
+import style from "../Detail/Detail.module.css";
 
-const DetailStyle = styled.div``;
+function GameDetail() {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const videogame = useSelector((state) => state.game);
 
-export default function Detail() {
-  let { id } = useParams();
+    useEffect(() => {
+        dispatch(idGame(id));
+    }, [dispatch, id]);
 
-  console.log(id);
+    return (
+        <div className={style.card}>
+            
+            <div >
+                        
+                    <p><strong>Id:</strong>  {videogame.id}</p>
+                    <p><strong>Nombre:</strong> {videogame.name}</p>      
+                                  
+                    <p>{videogame.hasOwnProperty("background_image") ?
+                        (<img src={videogame.background_image} className={style.img} alt="not found" />) :
+                        (<img src={videogame.image} className={style.img} alt="not found" />)}</p>
+                       
 
-  let [data, setData] = useState();
-  useEffect(() => {
-    axios(`http://localhost:3001/videogames/${id}`)
-      .then((datos) => datos.data)
-      .then((data) => setData(data[0]))
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log(data);
-  }, [data, id]);
+                        <div >
+                    <p><strong> Plataformar:</strong> {Array.isArray(videogame.platforms) ? (
+                            videogame.platforms.map(p => p.platform.name).join(", ")
+                        ) : (
+                            (videogame.platforms)
+                        )}</p>
+                    <p> <strong>Fecha De Lanzamiento:</strong>{videogame.released}</p>
+                    <p><strong>Rating:</strong> {videogame.rating}</p>
+                <p><strong>Genres:</strong>   {Array.isArray(videogame.genres) ? (
+                    videogame.genres.map(genre => genre.name).join(", ")
+                ) : (
+                    "Genres data is not available"
+                )}</p>       
+                    <p ><strong>Descripción:</strong></p> {videogame.description  }
+                 
+                  
+                </div>
+                
+            </div>
 
-  return (
-    <DetailStyle>
-      <NavLink to="/Home">BACK TO THE HOME</NavLink>
-      {data ? (
-        <div>
-        <div> {`ID : ${data.id}`}</div>
-        <div> {`Nombre : ${data.name}`}</div>
-        <div> {`Plataformas : ${data.platforms}`}</div>
-        <img src={data.img} style={{ height: "425px" }} alt={data.name} />
-        <div> {`Descripción : ${data.description}`}</div>
-        <div> {`Fecha de lanzamiento: ${data.released}`}</div>
-        <div> {`Rating : ${data.rating}`}</div>
-        <div> {`Géneros : ${data.genres.join(", ")}`}</div>
-      </div>
-      ) : (
-        <div>cargando</div>
-      )}
-    </DetailStyle>
-  );
+
+
+        </div>
+    )
 }
+
+export default GameDetail;

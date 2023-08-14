@@ -1,0 +1,42 @@
+.background {
+  height: 100vh;
+  background: url("./LandingFondo.gif");
+  background-size: cover; /* Ajustar el tamaño del fondo para cubrir el contenedor */
+  display: flex;
+  /*flex-direction: column;  Alinear elementos verticalmente */
+  justify-content: center; /* Centrado vertical */
+  align-items: center; /* Centrado horizontal */
+}
+
+.title {
+  margin-bottom: 20px; /* Ajustar el margen inferior según sea necesario */
+}
+
+.title h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 3.5rem; /* Utilizar valores rem para mejor escalado */
+  color: #f3ebeb;
+}
+
+.title button {
+  font-family: "Poppins", sans-serif;
+  color: white;
+  font-size: 2rem;
+  border: 1px solid white;
+  border-radius: 20px;
+  background: none;
+  padding: 10px 20px;
+  margin-top: 10px; /* Ajustar el margen superior según sea necesario */
+}
+
+.title button:hover {
+  cursor: pointer;
+  font-size: 115%;
+  transform-origin: center;
+  text-shadow: 0 0 5px #fff;
+}
+
+.text {
+  font-size: 28px;
+  font-family: helvetica;
+}

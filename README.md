@@ -1,6 +1,6 @@
 ![HenryLogo](https://d31uz8lwfmyn8g.cloudfront.net/Assets/logo-henry-white-lg.png)
 
-# **VIDEOGAMES** | Proyecto Individual
+# **VideogameS** | Proyecto Individual
 
 ## **📌 OBJETIVOS**
 
@@ -71,7 +71,7 @@ Está permitido, **bajo tu responsabilidad**, actualizar las dependencias a vers
 
 4. Reemplazar **`usuariodepostgres`** y **`passwordDePostgres`** con tus propias credenciales para conectarte a postgres. Este archivo va ser ignorado en la subida a github, ya que contiene información sensible (las credenciales).
 
-5. Adicionalmente será necesario que crees, **desde psql (shell o PGAdmin)**, una base de datos llamada **`videogames`**. Si no realizas este paso de manera manual no podrás avanzar con el proyecto.
+5. Adicionalmente será necesario que crees, **desde psql (shell o PGAdmin)**, una base de datos llamada **`Videogames`**. Si no realizas este paso de manera manual no podrás avanzar con el proyecto.
 
 <br />
 
@@ -143,25 +143,25 @@ Para esta parte deberás construir un servidor utilizando **NodeJS** y **Express
 
 Tu servidor deberá contar con las siguientes rutas:
 
-#### **📍 GET | /videogames**
+#### **📍 GET | /Videogames**
 
 -  Obtiene un arreglo de objetos, donde cada objeto es un videojuego con su información.
 
-#### **📍 GET | /videogames/:idVideogame**
+#### **📍 GET | /Videogames/:idVideogame**
 
 -  Esta ruta obtiene el detalle de un videojuego específico. Es decir que devuelve un objeto con la información pedida en el detalle de un videojuego.
 -  El videojuego es recibido por parámetro (ID).
 -  Tiene que incluir los datos del género del videojuego al que está asociado.
 -  Debe funcionar tanto para los videojuegos de la API como para los de la base de datos.
 
-#### **📍 GET | /videogames/name?="..."**
+#### **📍 GET | /Videogames/name?="..."**
 
 -  Esta ruta debe obtener los primeros 15 videojuegos que se encuentren con la palabra recibida por query.
 -  Debe poder buscarlo independientemente de mayúsculas o minúsculas.
 -  Si no existe el videojuego, debe mostrar un mensaje adecuado.
 -  Debe buscar tanto los de la API como los de la base de datos.
 
-#### **📍 POST | /videogames**
+#### **📍 POST | /Videogames**
 
 -  Esta ruta recibirá todos los datos necesarios para crear un videojuego y relacionarlo con sus géneros solicitados.
 -  Toda la información debe ser recibida por body.
@@ -193,7 +193,7 @@ Se debe desarrollar una aplicación utilizando **React** y **Redux** que conteng
 **📍 HOME PAGE |** la página principal de tu SPA debe contener:
 
 -  SearchBar: un input de búsqueda para encontrar videojuegos por nombre.
--  Sector en el que se vea un listado de cards con los videojuegos. Al iniciar deberá cargar los primeros resultados obtenidos desde la ruta **`GET /videogames`** y deberá mostrar su:
+-  Sector en el que se vea un listado de cards con los videojuegos. Al iniciar deberá cargar los primeros resultados obtenidos desde la ruta **`GET /Videogames`** y deberá mostrar su:
    -  Imagen.
    -  Nombre.
    -  Géneros.
@@ -257,5 +257,5 @@ Ten en cuenta que en esta instancia no es obligatorio el desarrollo de testing p
 <br />
 
 <div align="center">
-<img src="./videogame.png" alt="" />
+<img src="./Videogame.png" alt="" />
 </div>

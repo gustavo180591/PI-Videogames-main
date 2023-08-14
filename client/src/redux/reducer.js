@@ -1,27 +1,66 @@
 import { GET_USERS } from "./actions";
+import { GET_GENRES } from "./actions";
+import { GET_USERSID } from "./actions";
+import { GET_SEARCH } from "./actions";
+import { RESET } from "./actions";
+import { FILTER_BY_GENRE } from "./actions";
+import { ORDER_ASC_RATING } from "./actions";
+import { ORDER_DESC_RATING } from "./actions";
+import { ORDER_BY_CREATOR } from "./actions";
 
 
 const initialState = {
-  users: [],
-};
-//initialState recibe el estado que va a modificar 
-// recibe la action que acabamos de despachar. 
-//evalua el (action.type)
-// ve que es GET_USERS y crea un estado nuevo en linea 21 return { ...state, users: action.payload }; que es igual al 
-// estado anterior con esta modificación. users: action.payload
+    videogames: [],
+    genres: [],
+    game: [],
+    copiaVideogames: [],
+    filteredVideogames: [],
+    orderBy: "Select",
+    filterBy: "All",
+}
+
+
 const rootReducer = (state = initialState, action) => {
-    
-  switch (action.type) {
-    // que (action.type) tengo ? GET_USERS
-    case GET_USERS:
-        // que tengo que hacer? retornar un estado nuevo.
-        // en el que tengamos las propiedas de ...state y dentro del objeto state users sea igual a action.payload.
-        // este es el objeto final { ...state, users: action.payload }
-        // pisa la información y volvemos al CardsContainer
-      return { ...state, users: action.payload };
-    default:
-      return { ...state };
-  }
-};
+    switch (action.type) {
+        case GET_USERS:
+            return { ...state, videogames: action.payload, copiaVideogames: action.payload };
+        case GET_GENRES:
+            return { ...state, genres: action.payload };
+        case GET_USERSID:
+            return { ...state, game: action.payload };
+        case GET_SEARCH:
+            return { ...state, videogames: action.payload };
+        case RESET:
+            return {
+                ...state,
+                videogames: [],
+                filteredVideogames: [],
+                orderBy: "Select",
+                filterBy: "All",
+            }
+            case FILTER_BY_GENRE:
+                return {
+                  ...state,
+                  filteredVideogames: action.payload.videogameGenre,
+                  filterBy: action.payload.genre,
+                };
+              case ORDER_ASC_RATING:
+              case ORDER_DESC_RATING:
+                return {
+                  ...state,
+                  filteredVideogames: action.payload.videogamesOrder,
+                  orderBy: action.payload.name,
+                };
+          
+              case ORDER_BY_CREATOR:
+              return {
+                ...state,
+                filteredVideogames: action.payload.videogames,
+                filterBy: action.payload.source,
+              };
+        default:
+            return { ...state };
+    }
+}
 
 export default rootReducer;
